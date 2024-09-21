@@ -81,8 +81,53 @@ app.post('/book/search' , async(req,res)=>{
     res.send({results: data})
 })
 
+// Get 
+app.get('/book/list/test', async(req,res)=>{
+    await prisma.book.findMany()
+    res.send({message: "message"})
+})
 
+// Create Data 
+app.post('/book/create/test', async(req,res)=>{
+    const data = req.body
+    const payload = await prisma.book.create({data:data})
+    res.send({data: payload})
+})
+//Create Data Manual 
+app.post('/book/create/test1',async(req,res) =>{
+    const payload = await prisma.book.create({
+        data:{
+            isbn: "1339",
+            name:"Mai",
+            price: 20
+        }
+    })
+    res.send({data:payload})
+})
 
+//Update Data 
+app.put('book/update/:id', async(req,res)=>{
+    await prisma.book.update({
+        data: {
+            isbn: "1200",
+            name:"Bom",
+            price: 200
+        }, where: {
+            id: parseInt(req.params.id)
+        }
+    })
+    res.send({update:message})
+})
+
+//delete 
+app.delete('/book/remove/:id', async(req,res)=>{
+    await prisma.book.delete({
+        where: {
+            id: parseInt(req.params.id)
+        }
+    })
+    res.send({book:book})
+})
 
 
 
@@ -130,6 +175,45 @@ app.put('/UpdateName/:id', (req,res) =>{
     const data = req.body
     res.send({id: id , data: data})
 
+})
+
+
+// ---------- Start Try and Catch
+
+// ต้องขยายไปที่ตัวแปร 
+app.post('/book/startWith', async(req,res)=>{
+    const keyword = req.body.keyword
+    const data = await prisma.book.findMany({
+        where:{
+            name: {
+                startsWith: keyword
+            }       
+        }
+    })
+    res.send({result : data})
+})
+
+app.post('/book/endWith', async(req,res)=>{
+    const keyword = req.body.keyword
+    const data = await prisma.book.findMany({
+        where:{
+            name:{
+                endsWith: keyword
+            }
+        }
+    })
+    res.send({result:data})
+})
+
+
+// Order By 
+app.get('/book/orderBy', async(req,res)=>{
+    const data = await prisma.book.findMany({
+        orderBy: {
+            price: "desc"
+        }
+    })
+    res.send({result : data})
 })
 
 app.listen(3000)
