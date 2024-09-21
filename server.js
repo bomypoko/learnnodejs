@@ -314,4 +314,16 @@ app.get('/book/findYandDandM' , async(req,res)=>{
     res.send({result : data})
 })
 
+app.get('/book/findDateBetween', async(req,res)=>{
+    const data = await prisma.book.findMany({
+        where:{
+            registerDate:{
+                gte: new Date("2024-05-01"),
+                lte: new Date("2024-09-31")
+            }
+        }
+    })
+    res.send({result:data})
+})
+
 app.listen(3000)
