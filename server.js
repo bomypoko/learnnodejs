@@ -216,4 +216,18 @@ app.get('/book/orderBy', async(req,res)=>{
     res.send({result : data})
 })
 
+
+// gt stand for greater than and it is a method to use 
+app.get('/book/betterThan' , async(req,res)=>{
+    const data = await prisma.book.findMany({
+        where:{
+            price: {
+                gt: 900
+            }
+        }
+        
+    })
+    res.send({result: data})
+})
+
 app.listen(3000)
