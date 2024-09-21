@@ -255,4 +255,17 @@ app.get('/book/notNull',async(req,res)=>{
     res.send({result : data})
 })
 
+// Learn lte - gte ค่า เท่าไหร่ถึงเท่าไหร่
+app.get('/book/getBetween', async(req,res)=>{
+    const data = await prisma.book.findMany({
+        where:{
+            price: {
+                lte: 1500,
+                gte: 900
+            }
+        }
+    })
+    res.send({result:data})
+})
+
 app.listen(3000)
