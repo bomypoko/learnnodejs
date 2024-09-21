@@ -14,8 +14,11 @@ datasource db {
 }
 
 model book {
-  id    Int    @id() @default(autoincrement())
-  isbn  String
-  name  String
-  price Int
+  id     Int     @id() @default(autoincrement())
+  isbn   String
+  name   String
+  price  Int
+  detail String?
 }
+
+// ถ้ามี Field เพื่มมา ให้ใช้คำ ให้ใส่เพื่มและใช้คำสั่ง npx prisma migrate dev --name "your detail"

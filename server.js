@@ -230,4 +230,29 @@ app.get('/book/betterThan' , async(req,res)=>{
     res.send({result: data})
 })
 
+app.get('/book/letterThan' , async(req,res)=>{
+    const data = await prisma.book.findMany({
+        where:{
+            price: {
+                lt: 900
+            }
+        }
+        
+    })
+    res.send({result: data})
+})
+
+// หาค่าที่ไม่ใช้ Null ออกมาใน Database
+
+app.get('/book/notNull',async(req,res)=>{
+    const data = await prisma.book.findMany({
+        where:{
+            detail:{
+                not: null
+            }
+        }
+    })
+    res.send({result : data})
+})
+
 app.listen(3000)
