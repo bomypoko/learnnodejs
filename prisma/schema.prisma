@@ -22,4 +22,5 @@ model book {
   registerDate DateTime?
 }
 
+// date  สามารถ add @default(new Date()) ได้
 // ถ้ามี Field เพื่มมา ให้ใช้คำ ให้ใส่เพื่มและใช้คำสั่ง npx prisma migrate dev --name "your detail"
