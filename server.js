@@ -268,4 +268,13 @@ app.get('/book/getBetween', async(req,res)=>{
     res.send({result:data})
 })
 
+app.get('/book/sum', async(req,res)=>{
+    const data = await prisma.book.aggregate({
+        _sum:{
+            price:true,
+        }
+    })
+    res.send({result:data})
+})
+
 app.listen(3000)
