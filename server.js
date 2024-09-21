@@ -286,4 +286,13 @@ app.get('/book/max', async(req,res)=>{
     res.send({result:data})
 })
 
+app.get('/book/min', async(req,res)=>{
+    const data = await prisma.book.aggregate({
+        _min:{
+            price: true
+        }
+    })
+    res.send({result:data})
+})
+
 app.listen(3000)
