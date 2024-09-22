@@ -1,14 +1,15 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
-
 const { PrismaClient } = require('@prisma/client')
-
 const prisma = new PrismaClient();
-
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
+
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
+
+dotenv.config()
 
 // Call Data
 
