@@ -11,6 +11,27 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
+
+// Start Lean Config JWT TOKEN
+
+app.post('/user/createToken', (req,res)=>{
+   try {
+    const secret = process.env.TOKEN_SECRET
+    const payload = {
+        id:100,
+        name:'bom',
+        level:"admin"
+    }
+    const token = jwt.sign(payload,secret,{expiresIn: '1d'})
+    res.send({token:token})
+   } catch (e) {
+    res.send(500).send({error:e})
+   }
+
+})
+
+//END Config ToKen
+
 // Call Data
 
 // Call data from database (Prisma) by import PrismaClient 
