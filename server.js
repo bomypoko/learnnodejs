@@ -180,13 +180,14 @@ app.put('/UpdateName/:id', (req,res) =>{
 
 // ---------- Start Try and Catch
 
-// ต้องขยายไปที่ตัวแปร 
+// ต้องขยายไปที่ตัวแปร // startsWith is a function
 app.post('/book/startWith', async(req,res)=>{
     const keyword = req.body.keyword
     const data = await prisma.book.findMany({
         where:{
             name: {
-                startsWith: keyword
+                startsWith: keyword,
+                
             }       
         }
     })
@@ -325,5 +326,8 @@ app.get('/book/findDateBetween', async(req,res)=>{
     })
     res.send({result:data})
 })
+
+
+
 
 app.listen(3000)
