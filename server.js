@@ -23,7 +23,7 @@ const checkSignIn = (req,res,next) => {
             next()
         }
     } catch (e) {
-        res.send(500).send({ error : e.message})
+        res.status(500).send({ error : e.message})
     }
 }
 
@@ -31,7 +31,7 @@ app.get('/user/info',checkSignIn,(req,res,next)=>{
     try {
         res.send('hello admin bom')
     } catch (e) {
-        res.send(500).send({error : e})
+        res.status(500).send({error : e.message})
     }
 })
 
@@ -65,6 +65,36 @@ app.get('/user/verification', (req,res)=>{
 })
 
 //END Config ToKen
+
+
+// Relational Database session
+
+app.get('/OneToOne' , async(req,res)=>{
+    try {
+        const data = await prisma.orderDetail.findMany({
+            include:{
+                book: true
+            }
+        })
+        res.send({result: data})
+    } catch (e) {
+        res.send(500).send({error : e.message})
+    }
+})
+
+app.get('/OneToMany', async(req,res)=>{
+    try {
+        const data = await prisma.book.findMany({
+            include:{
+            OrderDetail:true
+            }
+        })
+        res.send({result: data})
+    } catch (e) {
+        res.send(500).send({error : e.message})
+    }
+})
+
 
 // Call Data
 
