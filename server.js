@@ -27,7 +27,17 @@ app.post('/user/createToken', (req,res)=>{
    } catch (e) {
     res.send(500).send({error:e})
    }
+})
 
+app.get('/user/verification', (req,res)=>{
+    try {
+        const secret = process.env.TOKEN_SECRET
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwLCJuYW1lIjoiYm9tIiwibGV2ZWwiOiJhZG1pbiIsImlhdCI6MTcyNjk5MDkyNiwiZXhwIjoxNzI3MDc3MzI2fQ.2eNe0fyY0xYPdyZWuY8BiQ2nMZT4gR43dY-nVZoTI6Y"
+        const result = jwt.verify(token,secret)
+        res.send({result:result})
+    } catch (e) {
+        res.send(500).send({error:e})
+    }
 })
 
 //END Config ToKen
