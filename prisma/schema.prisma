@@ -24,6 +24,8 @@ model Book {
 }
 
 //Parent
+
+// เชื่อมด้วย model Order โดย Order [] เอาไว้เพราะ 1 คนซื้อหลาย order
 model Customer {
   id      Int     @id() @default(autoincrement())
   name    String
@@ -33,6 +35,9 @@ model Customer {
 }
 
 //Child of Customer but Parent of OrderDetail
+// วิธีการทำ Relation Database
+// field ใหม่   เชื่อมกับ Model     กำหนด relationว่าฟิวนี้จะเชื่อม Model ไหน , referemces ไปที่ไหน
+// customer    Customer       @relation(fields: [customerId] , referemces: [id])
 model Order {
   id         Int       @id() @default(autoincrement())
   orderDate  DateTime
