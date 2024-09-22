@@ -11,6 +11,30 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
+// Check If login token Function 
+    // token จะมาพร้อมกับ Header 
+const checkSignIn = (req,res,next) => {
+    try {
+        const secret = process.env.TOKEN_SECRET
+        const token = req.headers['authorization']
+        const result = jwt.verify(token,secret)
+        
+        if(result != undefined) {
+            next()
+        }
+    } catch (e) {
+        res.send(500).send({ error : e.message})
+    }
+}
+
+app.get('/user/info',checkSignIn,(req,res,next)=>{
+    try {
+        res.send('hello admin bom')
+    } catch (e) {
+        res.send(500).send({error : e})
+    }
+})
+
 
 // Start Lean Config JWT TOKEN
 
@@ -25,7 +49,7 @@ app.post('/user/createToken', (req,res)=>{
     const token = jwt.sign(payload,secret,{expiresIn: '1d'})
     res.send({token:token})
    } catch (e) {
-    res.send(500).send({error:e})
+    res.send(500).send({error: e.message})
    }
 })
 
@@ -36,7 +60,7 @@ app.get('/user/verification', (req,res)=>{
         const result = jwt.verify(token,secret)
         res.send({result:result})
     } catch (e) {
-        res.send(500).send({error:e})
+        res.send(500).send({error: e.message})
     }
 })
 
