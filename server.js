@@ -3,8 +3,10 @@ const bodyParser = require('body-parser')
 const app = express()
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient();
-
+const fs = require('fs')
 const fileUpload = require('express-fileupload')
+
+
 
 //! import from Controller
 const bookController = require('./controllers/BookController')
@@ -15,6 +17,22 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use('/book',bookController)
 app.use('/customer/list', (req,res) => customerController.list(req,res))
 app.use(fileUpload())
+
+
+app.get('/readFile' , (req,res)=>{
+    try {
+        fs.readFile('text.txt', (err,data) => {
+            if(err) {
+                throw err;
+            }
+            res.send(data)
+        })
+        
+    } catch (e) {
+        res.status(500).send({error : e.message})
+    }
+})
+
 
 //TODO Upload File 
 app.post('/book/testUpload',(req,res) => {
