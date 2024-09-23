@@ -4,6 +4,8 @@ const app = express()
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient();
 
+const fileUpload = require('express-fileupload')
+
 //! import from Controller
 const bookController = require('./controllers/BookController')
 const customerController = require('./controllers/CustomerController')
