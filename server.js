@@ -19,6 +19,7 @@ app.use('/customer/list', (req,res) => customerController.list(req,res))
 app.use(fileUpload())
 
 
+//! Read and Write File , Upload ,Delete , CheckFIle
 app.get('/readFile' , (req,res)=> {
     try {
         fs.readFile('text.txt', (err,data) => {
@@ -33,8 +34,38 @@ app.get('/readFile' , (req,res)=> {
     }
 })
 
+app.get('/writefile', (req,res)=>{
+    try {
+        fs.writeFile('text.txt','Hello Bom555',(err)=>{
+            if (err) {
+                throw err;
+            }
+        })
+        res.send({message: 'success'})
+    } catch (e) {
+        res.status(500).send({message : e.message})
+    }
+})
+
+app.get('/removeFile',(req,res)=>{
+    try {
+        fs.unlinkSync('text.txt')
+        res.send({message:"success"})
+    } catch (e) {
+        res.status(500).send({message: e.message})
+    }
+})
+
+app.get('/fileExists',(req,res)=>{
+    const found = fs.existsSync('package.json')
+    res.send({found:found})
+})
+
+
 
 //TODO Upload File 
+
+
 app.post('/book/testUpload',(req,res) => {
     try {
         const myFile = req.files.myFile
