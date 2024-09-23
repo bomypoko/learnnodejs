@@ -39,19 +39,21 @@ model Customer {
 // field ใหม่   เชื่อมกับ Model     กำหนด relationว่าฟิวนี้จะเชื่อม Model ไหน , referemces ไปที่ไหน
 // customer    Customer       @relation(fields: [customerId] , referemces: [id])
 model Order {
-  id         Int       @id() @default(autoincrement())
-  orderDate  DateTime
-  payDate    DateTime?
-  customerId Int
-  customer   Customer  @relation(fields: [customerId], references: [id])
+  id          Int           @id() @default(autoincrement())
+  orderDate   DateTime
+  payDate     DateTime?
+  customerId  Int
+  customer    Customer      @relation(fields: [customerId], references: [id])
+  OrderDetail OrderDetail[]
 }
 
 // Child of Order : OrderDeail x : book 1 
 model OrderDetail {
-  id      Int  @id() @default(autoincrement())
+  id      Int   @id() @default(autoincrement())
   orderId Int
   bookId  Int
-  book    Book @relation(fields: [bookId], references: [id])
+  book    Book  @relation(fields: [bookId], references: [id])
+  Order   Order @relation(fields: [orderId], references: [id])
 }
 
 // date  สามารถ add @default(now()) ได้

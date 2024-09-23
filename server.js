@@ -3,11 +3,21 @@ const bodyParser = require('body-parser')
 const app = express()
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient();
+
+//! import from Controller
+const bookController = require('./controllers/BookController')
+
+
+
+app.use('/book',bookController)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
 
+
+// Import jwt เข้ามา
 const jwt = require('jsonwebtoken')
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
+const { verify } = require('crypto');
 
 dotenv.config()
 
@@ -27,6 +37,10 @@ const checkSignIn = (req,res,next) => {
     }
 }
 
+
+
+
+
 app.get('/user/info',checkSignIn,(req,res,next)=>{
     try {
         res.send('hello admin bom')
@@ -37,6 +51,7 @@ app.get('/user/info',checkSignIn,(req,res,next)=>{
 
 
 // Start Lean Config JWT TOKEN
+
 
 app.post('/user/createToken', (req,res)=>{
    try {
@@ -52,6 +67,17 @@ app.post('/user/createToken', (req,res)=>{
     res.send(500).send({error: e.message})
    }
 })
+
+// app.post('/user/checkToken', (req,res) => {
+//     const secret = process.env.TOKEN_SECRET
+//     const payload = {
+//         id: 25,
+//         name:'Joshoe',
+//         level:'admin'
+//     }
+//     const token = jwt.sign(payload,secret,{expiresIn: '1d'})
+//     res.send({token:token})
+// })
 
 app.get('/user/verification', (req,res)=>{
     try {
@@ -92,6 +118,27 @@ app.get('/OneToMany', async(req,res)=>{
         res.send({result: data})
     } catch (e) {
         res.send(500).send({error : e.message})
+    }
+})
+
+app.get('/multiModel' , async(req,res)=>{
+    try {
+        const data = await prisma.customer.findMany({
+            include:{
+                Order:{
+                    include:{
+                        OrderDetail:{
+                            include:{
+                                book:true
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        res.send({result:data})
+    } catch (e) {
+        res.status(500).send({error : e.message})
     }
 })
 
