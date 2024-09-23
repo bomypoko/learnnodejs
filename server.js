@@ -19,7 +19,7 @@ app.use('/customer/list', (req,res) => customerController.list(req,res))
 app.use(fileUpload())
 
 
-app.get('/readFile' , (req,res)=>{
+app.get('/readFile' , (req,res)=> {
     try {
         fs.readFile('text.txt', (err,data) => {
             if(err) {
