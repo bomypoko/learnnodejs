@@ -17,10 +17,10 @@ app.use('/customer/list', (req,res) => customerController.list(req,res))
 app.use(fileUpload())
 
 //TODO Upload File 
-app.post('/book/test',(req,res) => {
+app.post('/book/testUpload',(req,res) => {
     try {
         const myFile = req.files.myFile
-        myFile.mv('./uploads' + myFile.name, (err) => {
+        myFile.mv('./uploads/' + myFile.name, (err) => {
             if(err){
                 return res.status(500).send({error : err})
             }
