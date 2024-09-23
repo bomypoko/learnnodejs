@@ -10,11 +10,26 @@ const fileUpload = require('express-fileupload')
 const bookController = require('./controllers/BookController')
 const customerController = require('./controllers/CustomerController')
 
-
-app.use('/book',bookController)
-app.use('/customer/list', (req,res) => customerController.list(req,res))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
+app.use('/book',bookController)
+app.use('/customer/list', (req,res) => customerController.list(req,res))
+app.use(fileUpload())
+
+//TODO Upload File 
+app.post('/book/test',(req,res) => {
+    try {
+        const myFile = req.files.myFile
+        myFile.mv('./uploads' + myFile.name, (err) => {
+            if(err){
+                return res.status(500).send({error : err})
+            }
+        })
+        res.send({message: "success"})
+    } catch (e) {
+        res.send(500).send({message: e.message})
+    }
+})
 
 
 // Import jwt เข้ามา
