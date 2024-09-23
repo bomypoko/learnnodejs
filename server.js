@@ -19,6 +19,22 @@ app.use('/customer/list', (req,res) => customerController.list(req,res))
 app.use(fileUpload())
 
 
+app.get('/createPDF', (req,res)=>{
+    try {
+        const PDFDocument = require('pdfkit');
+        const doc = new PDFDocument()
+        doc.pipe(fs.createWriteStream('output.pdf'))
+        doc.fontSize(25).text('This is First Page',100,100)
+        doc.addPage().fontSize(25).text('test is a second page ',50,50)
+        doc.end()
+
+        res.send({message:'success'})
+    } catch (e) {
+        res.status(500).send({message : e.message})
+    }
+})
+
+
 //! Read and Write File , Upload ,Delete , CheckFIle
 app.get('/readFile' , (req,res)=> {
     try {
