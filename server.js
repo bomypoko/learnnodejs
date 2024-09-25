@@ -19,6 +19,38 @@ app.use('/customer/list', (req,res) => customerController.list(req,res))
 app.use(fileUpload())
 
 
+app.get('/readExcel', async(req,res)=>{
+    try {
+        const excel = require('exceljs')
+        const wb = new excel.Workbook()
+        await wb.xlsx.readFile('test555.xlsx')
+        const ws = wb.getWorksheet(1)
+
+        // loop เพื่ออ่านค่า
+        for (let i = 1; i <= ws.rowCount; i++){
+
+            const row = ws.getRow(i)
+
+            const barcode = row.getCell(1).value
+            const name = row.getCell(2).value
+            const cost = row.getCell(3).value
+            const sale = row.getCell(4).value
+            const send = row.getCell(5).value
+            const unit = row.getCell(6).value
+
+            
+            
+    
+            console.log(barcode ,name ,cost ,sale,send,unit)
+        }
+        res.send({success: "Success"})
+
+    } catch (e) {
+        res.status(500).send({error : e.message})
+    }
+})
+
+
 app.get('/createPDF', (req,res)=>{
     try {
         const PDFDocument = require('pdfkit');
