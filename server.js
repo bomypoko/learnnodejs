@@ -24,7 +24,8 @@ app.get('/createPDF', (req,res)=>{
         const PDFDocument = require('pdfkit');
         const doc = new PDFDocument()
         doc.pipe(fs.createWriteStream('output.pdf'))
-        doc.fontSize(25).text('This is First Page',100,100)
+        doc.font("Sarabun/Sarabun-Thin.ttf")
+        doc.fontSize(16).text('สวัสดี ทดสอบภาษาไทย',50,100)
         doc.addPage().fontSize(25).text('test is a second page ',50,50)
         doc.end()
 
